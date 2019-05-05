@@ -3,7 +3,7 @@
  * Game sprite sheet
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.image.BufferedImage;
 

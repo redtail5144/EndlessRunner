@@ -3,7 +3,7 @@
  * the game window
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -13,8 +13,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import com.engine.main.BufferedImageLoader;
-import com.engine.main.Game;
+import com.runner.main.BufferedImageLoader;
+import com.runner.main.Game;
 
 public class Window extends Canvas {
 

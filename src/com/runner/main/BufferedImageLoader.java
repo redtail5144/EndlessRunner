@@ -3,7 +3,7 @@
  * 	Buffered Images
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

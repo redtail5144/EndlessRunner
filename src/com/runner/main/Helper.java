@@ -3,7 +3,7 @@
  * Multiple helper functions
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -22,7 +22,7 @@ public class Helper {
 			return 1;
 		return -1;
 	}
-
+	
 	// Clamps var between its min and max
 	public static int clamp(int var, int min, int max) {
 		if (var >= max)

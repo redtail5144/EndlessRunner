@@ -3,8 +3,10 @@
  * various game objects
  */
 
-package com.engine.main;
+package com.runner.main;
 
 public enum ID {
-	Player();
+	Player(),
+	Pillar(),
+	Platform();
 }

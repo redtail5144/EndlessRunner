@@ -3,7 +3,7 @@
  * for game objects
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -47,6 +47,7 @@ public abstract class GameObject {
 	}
 
 	public abstract void tick();
+	public abstract void jump();
 
 	// *********SETTERS************************
 	public void setX(int x) {

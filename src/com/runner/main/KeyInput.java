@@ -3,7 +3,7 @@
  * all key inputs
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -44,6 +44,7 @@ public class KeyInput extends KeyAdapter {
 			if (tempObject.getID() == ID.Player) {
 
 				switch (key) {
+
 				// Up Movement
 				case KeyEvent.VK_W:
 					keyDown[0] = true;
@@ -62,6 +63,10 @@ public class KeyInput extends KeyAdapter {
 				// Right Movement
 				case KeyEvent.VK_D:
 					keyDown[3] = true;
+					break;
+
+				case KeyEvent.VK_SPACE:
+					tempObject.jump();
 					break;
 				}
 			}

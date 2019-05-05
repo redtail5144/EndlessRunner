@@ -3,13 +3,15 @@
  * the player character
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.Color;
 
-import com.engine.main.GameObject;
+import com.runner.main.GameObject;
 
 public class Player extends GameObject {
+	
+	public static int jHeight = 20;
 
 	public Player(int x, int y) {
 		// GameObject constructor
@@ -31,7 +33,7 @@ public class Player extends GameObject {
 
 	// Player ticks
 	public void tick() {
-		collided();
+		//collided();
 	}
 
 	// checks if player collided with an object
@@ -44,6 +46,10 @@ public class Player extends GameObject {
 				if (getBounds().intersects(temp.getBounds()))
 					collision(temp);
 		}
+	}
+	
+	public void jump() {
+		
 	}
 
 	// Collision with object

@@ -3,7 +3,7 @@
  * the game HUD
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.Graphics;
 

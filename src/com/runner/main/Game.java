@@ -2,9 +2,12 @@
  * The Backbone of the game
  */
 
-package com.engine.main;
+package com.runner.main;
 
 import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable {
@@ -40,6 +43,10 @@ public class Game extends Canvas implements Runnable {
 
 		// Creates the window
 		new Window(WIDTH, HEIGHT, "Title", this);
+
+		handler.addObject(new Platform(WIDTH, HEIGHT / 2));
+
+		//handler.addObject(new Player(WIDTH / 2, HEIGHT / 2));
 	}
 
 	// Starts everything
@@ -61,12 +68,28 @@ public class Game extends Canvas implements Runnable {
 
 	// Causes the game to tick
 	private void tick() {
-
+		handler.tick();
 	}
 
 	// Renders everything in the game
 	private void render() {
+		BufferStrategy bs = this.getBufferStrategy();
 
+		if (bs == null) {
+			this.createBufferStrategy(3);
+			return;
+		}
+
+		Graphics g = bs.getDrawGraphics();
+
+		// Fills the window one solid colour
+		g.setColor(Color.black);
+		g.fillRect(0, 0, WIDTH, HEIGHT);
+
+		handler.render(g);
+
+		g.dispose();
+		bs.show();
 	}
 
 	// Game loop
