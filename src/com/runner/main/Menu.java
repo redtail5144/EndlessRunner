@@ -7,25 +7,28 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import com.runner.main.Game.STATE;
 
 public class Menu extends MouseAdapter {
 
+	// Size of menu boxes
 	private int xSize = 200, ySize = 64;
+	// The game
 	private Game game;
+	// Game's handler
 	private Handler handler;
-	private Random r = new Random();
+	// Icons
 	private BufferedImage speak = null, speakM = null;
+	// Image loader
 	BufferedImageLoader loader = new BufferedImageLoader();
 
 	public Menu(Game game) {
 		this.game = game;
 		this.handler = game.getHand();
 
-		// speak = loader.loadImage("/speaker.png");
-		// speakM = loader.loadImage("/speakerMuted.png");
+		speak = loader.loadImage("/images/speaker.png");
+		speakM = loader.loadImage("/images/speakerMuted.png");
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -38,9 +41,9 @@ public class Menu extends MouseAdapter {
 			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 100, xSize, ySize)) {
 				game.getHud().setScore(0);
 				game.gameState = STATE.Game;
-				
-				handler.addObject(new Platform(0, Game.HEIGHT / 2 + 100, Game.WIDTH));
 
+				// Spawns shit
+				handler.addObject(new Platform(0, Game.HEIGHT / 2 + 100, Game.WIDTH));
 				handler.addObject(new Player(Game.WIDTH / 2, Game.HEIGHT / 2));
 			}
 
@@ -53,10 +56,8 @@ public class Menu extends MouseAdapter {
 				System.exit(1);
 
 			// Sound Button
-			/*
-			 * if (mouseOver(mx, my, game.getWidth() - 55, game.getHeight() - 55, 50, 50))
-			 * game.muted = !game.muted;
-			 */
+			if (mouseOver(mx, my, game.getWidth() - 55, game.getHeight() - 55, 50, 50))
+				game.muted = !game.muted;
 
 			// Credits Button
 			if (mouseOver(mx, my, 2, game.getHeight() - 55, 110, 50))
@@ -101,21 +102,17 @@ public class Menu extends MouseAdapter {
 		Font fnt = new Font("arial", 1, 50), fnt2 = new Font("arial", 1, 30), fnt3 = new Font("arial", 1, 20);
 		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 70), "Credits", fnt);
 
-		// Music Credits
-		/*
-		 * Helper.xCenterString(g, new Rectangle(Game.WIDTH, 150),
-		 * "Furious Freak - Kevin MacLeod (incompetech.com)", fnt3); xCenterString(g,
-		 * new Rectangle(Game.WIDTH, 190),
-		 * "Licensed under Creative Commons: By Attribution 3.0", fnt3);
-		 * Helper.xCenterString(g, new Rectangle(Game.WIDTH, 230),
-		 * "http://creativecommons.org/licenses/by/3.0/", fnt3);
-		 */
-
 		// My Credits
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 150), "Programming and \"Art\" by:", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 190), "Austin Campbell", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 230), "Twitter.com/Redtail5144", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 270), "StudioWithAHat.com", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 190), "Programming and \"Art\" by:", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 230), "Austin Campbell", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 270), "Twitter.com/Redtail5144", fnt3);
+
+		// Music Credits
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 370), "Music by: ", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 420), "Jayden Rutschke", fnt3);
+
+		// Website
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 560), "StudioWithAHat.com", fnt3);
 
 		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 660), "Back", fnt2);
 		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize);
@@ -134,11 +131,12 @@ public class Menu extends MouseAdapter {
 		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 660), "Quit", fnt2);
 		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize);
 
-		/*
-		 * if (game.muted) g.drawImage(speakM, game.getWidth() - 55, game.getHeight() -
-		 * 55, null); else g.drawImage(speak, game.getWidth() - 55, game.getHeight() -
-		 * 55, null); g.drawRect(game.getWidth() - 55, game.getHeight() - 55, 50, 50);
-		 */
+		// Speaker icon
+		if (game.muted)
+			g.drawImage(speakM, game.getWidth() - 55, game.getHeight() - 55, null);
+		else
+			g.drawImage(speak, game.getWidth() - 55, game.getHeight() - 55, null);
+		g.drawRect(game.getWidth() - 55, game.getHeight() - 55, 50, 50);
 
 		g.drawString("Credits", 4, game.getHeight() - 20);
 		g.drawRect(2, game.getHeight() - 55, 110, 50);

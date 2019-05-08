@@ -18,13 +18,15 @@ public class AudioPlayer {
 	public static Map<String, Sound> soundMap = new HashMap<String, Sound>();
 	// Holds music
 	public static Map<String, Music> musicMap = new HashMap<String, Music>();
+	// Checks if is playing
+	public static boolean playing = false;
 
 	// Loads audio into the map
 	public static void load() {
 
 		try {
-			// Insert audio load ex:
-			musicMap.put("music", new Music("res/menuMusic.wav"));
+			// Insert audio load
+			musicMap.put("music", new Music("res/audio/GameMusic.wav"));
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -40,5 +42,4 @@ public class AudioPlayer {
 	public static Music getMusic(String key) {
 		return musicMap.get(key);
 	}
-
 }

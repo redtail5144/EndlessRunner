@@ -9,12 +9,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import com.runner.main.AudioPlayer;
 
 public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = -5888314627074306608L;
 
 	// Width and Height of the Game/Window
 	public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
+	
+	//If game is muted
+	public static boolean muted = false;
 
 	// Games Sprite Sheet
 	public static BufferedImage sprite_sheet;
@@ -38,6 +42,9 @@ public class Game extends Canvas implements Runnable {
 
 	// Game menu
 	private Menu menu;
+	
+	// Game title
+	private Titles title = new Titles();
 
 	public Game() {
 
@@ -46,11 +53,15 @@ public class Game extends Canvas implements Runnable {
 		menu = new Menu(this);
 		this.addKeyListener(new KeyInput(this));
 		this.addMouseListener(menu);
-		AudioPlayer.load();
 		hud = new HUD();
-
+		
+		// Load Audio
+		AudioPlayer.load();
+		AudioPlayer.getMusic("music");
+		AudioPlayer.playing = false;
+		
 		// Creates the window
-		new Window(WIDTH, HEIGHT, "Title", this);
+		new Window(WIDTH, HEIGHT, title.getTitle(), this);
 	}
 
 	// Starts everything
@@ -72,6 +83,18 @@ public class Game extends Canvas implements Runnable {
 
 	// Causes the game to tick
 	private void tick() {
+		
+		if (muted) {
+			AudioPlayer.pause("music");
+			AudioPlayer.playing = false;
+		} else {
+			if (!AudioPlayer.playing) {
+				AudioPlayer.getMusic("music").loop();
+				AudioPlayer.playing = true;
+			}
+		}
+		
+		
 		if (checkGameOver())
 			gameOver();
 

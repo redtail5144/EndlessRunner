@@ -24,16 +24,20 @@ public class Window extends Canvas {
 	private BufferedImage icon = null;
 
 	public Window(int width, int height, String title, Game game) {
-		//splashScreen(width, height, title, game);
-		
-		gameWindow(width, height, title, game);
+		// Sets up icon
+		BufferedImageLoader loader = new BufferedImageLoader();
+		icon = loader.loadImage("/images/icon.png");
+
+		splashScreen(width, height, title, game);
+
+		// gameWindow(width, height, title, game);
 	}
 
 	// The actual game window
 	private void gameWindow(int width, int height, String title, Game game) {
 		// Creates the frame of the window
 		JFrame frame = new JFrame(title);
-		//frame.setIconImage(icon);
+		// frame.setIconImage(icon);
 		frame.setPreferredSize(new Dimension(width, height));
 		frame.setMaximumSize(new Dimension(width, height));
 		frame.setMinimumSize(new Dimension(width, height));
@@ -47,7 +51,7 @@ public class Window extends Canvas {
 
 		game.start(); // starts the game
 	}
-	
+
 	// Displays the Logo
 	private void splashScreen(int width, int height, String title, Game game) {
 		// Creates the frame of the window
@@ -57,7 +61,7 @@ public class Window extends Canvas {
 		// Inits the logo
 		BufferedImage logo = null;
 		BufferedImageLoader loader = new BufferedImageLoader();
-		logo = loader.loadImage("/logo.png");
+		logo = loader.loadImage("/images/logo.png");
 
 		// Displays Logo
 		window.getContentPane().add(new JLabel(new ImageIcon(logo)));
