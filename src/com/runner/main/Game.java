@@ -19,6 +19,14 @@ public class Game extends Canvas implements Runnable {
 	// Games Sprite Sheet
 	public static BufferedImage sprite_sheet;
 
+	// Various Game States
+	public enum STATE {
+		Menu, Help, Game, Credits, GameOver;
+	};
+
+	// Current Game State
+	public STATE gameState = STATE.Menu;
+
 	private Thread thread;
 	private boolean running = false;
 
@@ -26,7 +34,7 @@ public class Game extends Canvas implements Runnable {
 	private static Handler handler;
 
 	// Game HUD
-	private HUD hud;
+	private static HUD hud;
 
 	// Game menu
 	private Menu menu;
@@ -43,10 +51,6 @@ public class Game extends Canvas implements Runnable {
 
 		// Creates the window
 		new Window(WIDTH, HEIGHT, "Title", this);
-
-		handler.addObject(new Platform(WIDTH, HEIGHT / 2 + 100));
-
-		handler.addObject(new Player(WIDTH / 2, HEIGHT / 2));
 	}
 
 	// Starts everything
@@ -68,8 +72,16 @@ public class Game extends Canvas implements Runnable {
 
 	// Causes the game to tick
 	private void tick() {
-		handler.tick();
-		hud.tick();
+		if (checkGameOver())
+			gameOver();
+
+		if (gameState == STATE.Game) {
+			handler.tick();
+			hud.tick();
+		} else {
+			menu.tick();
+			handler.tick();
+		}
 	}
 
 	// Renders everything in the game
@@ -87,8 +99,12 @@ public class Game extends Canvas implements Runnable {
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
-		handler.render(g);
-		hud.render(g);
+		if (gameState == STATE.Game) {
+			handler.render(g);
+			hud.render(g);
+		}
+		else
+			menu.render(g);
 
 		g.dispose();
 		bs.show();
@@ -130,12 +146,20 @@ public class Game extends Canvas implements Runnable {
 
 	// Checks if game is over
 	private boolean checkGameOver() {
+		for (int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+
+			if (tempObject.getID() == ID.Player)
+				if (tempObject.getY() > HEIGHT)
+					return true;
+		}
 		return false;
 	}
 
 	// Game is over
 	private void gameOver() {
-
+		handler.object.clear();
+		gameState = STATE.GameOver;
 	}
 
 	// Where everything starts
@@ -148,4 +172,8 @@ public class Game extends Canvas implements Runnable {
 		return handler;
 	}
 
+	// Returns HUD
+	public static HUD getHud() {
+		return hud;
+	}
 }

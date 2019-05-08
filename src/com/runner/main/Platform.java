@@ -11,20 +11,16 @@ import com.runner.main.Game;
 public class Platform extends GameObject {
 
 	private boolean child = false; // Flag for creating next platform
-		
 
-	public Platform(int x, int y) {
+	public Platform(int x, int y, float speed) {
 		// GameObject constructor
 		super(x, y);
 
 		// Keeps platform on screen
-		y = Helper.clamp(y, Game.WIDTH - 10, 32);
+		setY(Helper.clamp(y, 50, Game.HEIGHT - 100));
 
 		// Sets ID to platform
 		this.id = ID.Platform;
-
-		// Sets platform colour
-		colour = Color.white;
 
 		// Sets platform size
 		// Randomly determines platform size
@@ -32,12 +28,31 @@ public class Platform extends GameObject {
 		ySize = 16;
 
 		// Keeps xSize within reasonable boundries
-		xSize = Helper.clamp(xSize, 64, 200);
+		xSize = Helper.clamp(xSize, 120, 200);
 
-		velX = 3;
+		// Each platform speeds up slightly
+		velX = speed;
 
 		// Spawns a pillar centred on platform
-		//handler.addObject(new PlatformPillar(x + (xSize / 2) - ((xSize / 4) / 2), y, this));
+		handler.addObject(new PlatformPillar(x + (xSize / 2) - ((xSize / 4) / 2), y, this));
+	}
+
+	// First Platform
+	public Platform(int x, int y, int size) {
+		// GameObject constructor
+		super(x, y);
+
+		// Sets ID to platform
+		this.id = ID.Platform;
+
+		// Sets platform size
+		xSize = size;
+		ySize = 16;
+
+		velX = 6;
+
+		// Spawns a pillar centred on platform
+		handler.addObject(new PlatformPillar(x + (xSize / 2) - ((xSize / 4) / 2), y, this));
 	}
 
 	public void tick() {
@@ -47,10 +62,10 @@ public class Platform extends GameObject {
 		// Moves
 		x -= velX;
 
-		// If it has reached 20 px past edge of screen spawn new pillar
-		if (x + xSize + 20 <= Game.WIDTH && !child) {
+		// If it has reached 30 px past edge of screen spawn new pillar
+		if (x + xSize + 30 <= Game.WIDTH && !child) {
 			child = true;
-			handler.addObject(new Platform(Game.WIDTH, y + (Helper.coin() * Player.jHeight)));
+			handler.addObject(new Platform(Game.WIDTH, y + (Helper.coin() * (Player.jHeight / 2)), velX + 0.02f));
 		}
 
 		// Dies once reaches edge of screen

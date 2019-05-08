@@ -12,7 +12,7 @@ public class PlatformPillar extends GameObject {
 	public PlatformPillar(int x, int y, Platform p) {
 		// GameObject constructor
 		super(x, y);
-		
+
 		this.id = ID.Pillar;
 
 		// Sets top as p
@@ -34,6 +34,9 @@ public class PlatformPillar extends GameObject {
 	public void tick() {
 		// moves
 		x -= velX;
+
+		// vel is same as top
+		velX = top.velX;
 
 		// Updates colour to same as top
 		colour = top.colour;

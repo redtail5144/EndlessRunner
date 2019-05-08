@@ -42,7 +42,7 @@ public class Helper {
 	}
 
 	// Centers String in Rectangle r
-	public void xCenterString(Graphics g, Rectangle r, String s, Font font) {
+	public static void xCenterString(Graphics g, Rectangle r, String s, Font font) {
 		FontRenderContext frc = new FontRenderContext(null, true, true);
 
 		Rectangle2D r2D = font.getStringBounds(s, frc);

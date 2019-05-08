@@ -12,7 +12,7 @@ import com.runner.main.GameObject;
 public class Player extends GameObject {
 
 	// Jump height
-	public static int jHeight = 40;
+	public static int jHeight = 50;
 
 	public Player(int x, int y) {
 		// GameObject constructor
@@ -26,7 +26,7 @@ public class Player extends GameObject {
 		ySize = xSize;
 
 		velX = 0;
-		velY = 3;
+		velY = 5;
 
 		// Loads player sprite
 		// sprite = ss.grabImage(1, 1, xSize, ySize);
@@ -42,11 +42,13 @@ public class Player extends GameObject {
 		}
 	}
 
+	// Player Jumps
 	public void jump() {
-		if (onGround())
+		if (onGround() && !inside())
 			y -= jHeight;
 	}
 
+	// Checks if player is on a platform
 	private boolean onGround() {
 		for (int i = 0; i < handler.object.size(); i++) {
 			GameObject tempObject = handler.object.get(i);
@@ -56,6 +58,19 @@ public class Player extends GameObject {
 					return true;
 		}
 
+		return false;
+	}
+
+	// Checks if player is inside platform
+	private boolean inside() {
+		for (int i = 0; i < handler.object.size(); i++) {
+			GameObject tempObject = handler.object.get(i);
+
+			if (tempObject.getID() == ID.Platform)
+				if (getBounds().intersects(tempObject.getBounds()))
+					if ((getY() + getYsize() > (tempObject.getY() + tempObject.getYsize())))
+						return true;
+		}
 		return false;
 	}
 }
