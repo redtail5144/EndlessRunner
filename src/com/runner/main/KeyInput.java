@@ -44,27 +44,7 @@ public class KeyInput extends KeyAdapter {
 			if (tempObject.getID() == ID.Player) {
 
 				switch (key) {
-
-				// Up Movement
-				case KeyEvent.VK_W:
-					keyDown[0] = true;
-					break;
-
-				// Down Movement
-				case KeyEvent.VK_S:
-					keyDown[1] = true;
-					break;
-
-				// Left Movement
-				case KeyEvent.VK_A:
-					keyDown[2] = true;
-					break;
-
-				// Right Movement
-				case KeyEvent.VK_D:
-					keyDown[3] = true;
-					break;
-
+				// Space to jump
 				case KeyEvent.VK_SPACE:
 					tempObject.jump();
 					break;

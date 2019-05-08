@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public abstract class GameObject {
 
@@ -20,12 +21,16 @@ public abstract class GameObject {
 	protected Handler handler;
 	protected SpriteSheet ss = new SpriteSheet(Game.sprite_sheet);
 	protected BufferedImage sprite = null;
+	protected Random ran = new Random();
+	// Booleans RGB values for colours
+	private boolean r = ran.nextBoolean(), b = ran.nextBoolean(), g = ran.nextBoolean();
+	// RGB Values
+	private int red = ran.nextInt(255), blue = ran.nextInt(255), green = ran.nextInt(255);
 
 	// constructor
 	public GameObject(int x, int y) {
 		this.x = x;
 		this.y = y;
-		// this.id = id;
 		this.handler = Game.getHand();
 	}
 
@@ -46,7 +51,59 @@ public abstract class GameObject {
 		 */
 	}
 
+	// Fades colour though the spectrum
+	public void fade() {
+
+		// If r increase red value
+		if (r) {
+			red += 2;
+			// If red is at max flag for decrease
+			if (red >= 255)
+				r = false;
+		} else {
+			// if !r decrease red value
+			red -= 2;
+			// If Red is at min flag for increase
+			if (red <= 0)
+				r = true;
+		}
+
+		// If r increase red value
+		if (g) {
+			green += 2;
+			// If red is at max flag for decrease
+			if (green >= 255)
+				g = false;
+		} else {
+			// if !r decrease red value
+			green -= 2;
+			// If Red is at min flag for increase
+			if (green <= 0)
+				g = true;
+		}
+		// If r increase red value
+		if (b) {
+			blue += 2;
+			// If red is at max flag for decrease
+			if (blue >= 255)
+				b = false;
+		} else {
+			// if !r decrease red value
+			blue -= 2;
+			// If Red is at min flag for increase
+			if (blue <= 0)
+				b = true;
+		}
+
+		red = Helper.clamp(red, 0, 255);
+		blue = Helper.clamp(blue, 0, 255);
+		green = Helper.clamp(green, 0, 255);
+
+		this.colour = new Color(red, green, blue);
+	}
+
 	public abstract void tick();
+
 	public abstract void jump();
 
 	// *********SETTERS************************

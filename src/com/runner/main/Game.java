@@ -44,9 +44,9 @@ public class Game extends Canvas implements Runnable {
 		// Creates the window
 		new Window(WIDTH, HEIGHT, "Title", this);
 
-		handler.addObject(new Platform(WIDTH, HEIGHT / 2));
+		handler.addObject(new Platform(WIDTH, HEIGHT / 2 + 100));
 
-		//handler.addObject(new Player(WIDTH / 2, HEIGHT / 2));
+		handler.addObject(new Player(WIDTH / 2, HEIGHT / 2));
 	}
 
 	// Starts everything
@@ -69,6 +69,7 @@ public class Game extends Canvas implements Runnable {
 	// Causes the game to tick
 	private void tick() {
 		handler.tick();
+		hud.tick();
 	}
 
 	// Renders everything in the game
@@ -87,6 +88,7 @@ public class Game extends Canvas implements Runnable {
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 
 		handler.render(g);
+		hud.render(g);
 
 		g.dispose();
 		bs.show();
