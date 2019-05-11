@@ -28,9 +28,9 @@ public class Window extends Canvas {
 		BufferedImageLoader loader = new BufferedImageLoader();
 		icon = loader.loadImage("/images/icon.png");
 
-		splashScreen(width, height, title, game);
+		//splashScreen(width, height, title, game);
 
-		// gameWindow(width, height, title, game);
+		 gameWindow(width, height, title, game);
 	}
 
 	// The actual game window

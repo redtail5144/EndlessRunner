@@ -5,14 +5,19 @@
 
 package com.runner.main;
 
-import java.awt.Color;
-
 import com.runner.main.GameObject;
 
 public class Player extends GameObject {
 
 	// Jump height
 	public static int jHeight = 50;
+
+	// flag for sprite animation
+	private boolean first = true;
+
+	// ints for animations
+	private final int tMax = 4;
+	private int timer = tMax;
 
 	public Player(int x, int y) {
 		// GameObject constructor
@@ -28,6 +33,8 @@ public class Player extends GameObject {
 		velX = 0;
 		velY = 5;
 
+		sprite = ss.grabImage(1, 1, xSize, ySize);
+
 		// Loads player sprite
 		// sprite = ss.grabImage(1, 1, xSize, ySize);
 	}
@@ -35,6 +42,11 @@ public class Player extends GameObject {
 	// Player ticks
 	public void tick() {
 		fade();
+
+		if (timer >= 0)
+			timer--;
+
+		animate();
 
 		if (!onGround()) {
 			velY = 3;
@@ -72,5 +84,23 @@ public class Player extends GameObject {
 						return true;
 		}
 		return false;
+	}
+
+	// Updates player sprite
+	private void animate() {
+		if (!onGround() || inside()) {
+			sprite = ss.grabImage(2, 1, xSize, ySize);
+			timer = 0;
+		}
+		else if (timer <= 0)
+			if (first) {
+				sprite = ss.grabImage(1, 2, xSize, ySize);
+				timer = tMax;
+				first = false;
+			} else {
+				sprite = ss.grabImage(1, 1, xSize, ySize);
+				timer = tMax;
+				first = true;
+			}
 	}
 }

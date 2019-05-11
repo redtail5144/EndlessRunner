@@ -30,6 +30,9 @@ public class Game extends Canvas implements Runnable {
 
 	// Current Game State
 	public STATE gameState = STATE.Menu;
+	
+	//Game sprite sheet
+	static BufferedImage spriteSheet;
 
 	private Thread thread;
 	private boolean running = false;
@@ -54,6 +57,10 @@ public class Game extends Canvas implements Runnable {
 		this.addKeyListener(new KeyInput(this));
 		this.addMouseListener(menu);
 		hud = new HUD();
+		
+		//Initializes sprite sheet
+		BufferedImageLoader loader = new BufferedImageLoader();
+		spriteSheet = loader.loadImage("/images/sprite.png");
 		
 		// Load Audio
 		AudioPlayer.load();

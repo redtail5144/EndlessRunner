@@ -19,7 +19,7 @@ public abstract class GameObject {
 	protected ID id;
 	protected Color colour;
 	protected Handler handler;
-	protected SpriteSheet ss = new SpriteSheet(Game.sprite_sheet);
+	protected SpriteSheet ss = new SpriteSheet(Game.spriteSheet);
 	protected BufferedImage sprite = null;
 	protected Random ran = new Random();
 	// Booleans RGB values for colours

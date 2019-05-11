@@ -17,7 +17,7 @@ public class Platform extends GameObject {
 		super(x, y);
 
 		// Keeps platform on screen
-		setY(Helper.clamp(y, 50, Game.HEIGHT - 100));
+		setY(Helper.clamp(y, 32, Game.HEIGHT - 100));
 
 		// Sets ID to platform
 		this.id = ID.Platform;
