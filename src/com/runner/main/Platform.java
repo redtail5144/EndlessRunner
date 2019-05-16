@@ -23,12 +23,12 @@ public class Platform extends GameObject {
 		this.id = ID.Platform;
 
 		// Sets platform size
-		// Randomly determines platform size
+		// Randomly determines platform xSize
 		xSize = ran.nextInt(200);
 		ySize = 16;
 
 		// Keeps xSize within reasonable boundries
-		xSize = Helper.clamp(xSize, 120, 200);
+		xSize = Helper.clamp(xSize, 160, 200);
 
 		// Each platform speeds up slightly
 		velX = speed;

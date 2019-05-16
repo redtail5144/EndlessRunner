@@ -33,8 +33,10 @@ public class KeyInput extends KeyAdapter {
 		int key = e.getKeyCode();
 
 		// Closes the Game
-		if (key == KeyEvent.VK_ESCAPE)
+		if (key == KeyEvent.VK_ESCAPE) {
+			game.getHud().writeHscore();
 			System.exit(1);
+		}
 
 		// Checks for player object
 		for (int i = 0; i < handler.object.size(); i++) {

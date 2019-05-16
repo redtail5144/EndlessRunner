@@ -189,6 +189,7 @@ public class Game extends Canvas implements Runnable {
 	// Game is over
 	private void gameOver() {
 		handler.object.clear();
+		hud.saveHscore();
 		gameState = STATE.GameOver;
 	}
 

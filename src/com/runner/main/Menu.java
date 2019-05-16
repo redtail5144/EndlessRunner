@@ -52,8 +52,10 @@ public class Menu extends MouseAdapter {
 				game.gameState = STATE.Help;
 
 			// Quit Button
-			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize))
+			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize)) {
+				game.getHud().writeHscore();
 				System.exit(1);
+			}
 
 			// Sound Button
 			if (mouseOver(mx, my, game.getWidth() - 55, game.getHeight() - 55, 50, 50))
