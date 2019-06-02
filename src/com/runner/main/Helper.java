@@ -22,7 +22,7 @@ public class Helper {
 			return 1;
 		return -1;
 	}
-	
+
 	// Clamps var between its min and max
 	public static int clamp(int var, int min, int max) {
 		if (var >= max)
@@ -57,5 +57,4 @@ public class Helper {
 		g.setFont(font);
 		g.drawString(s, r.x + a, r.y + b);
 	}
-
 }

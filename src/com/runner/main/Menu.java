@@ -14,14 +14,39 @@ public class Menu extends MouseAdapter {
 
 	// Size of menu boxes
 	private int xSize = 200, ySize = 64;
+
+	// Position of title
+	private int pos;
+
+	// Size of text
+	private int textSize;
+
+	//Space between text
+	private int textSpace;
+	
+	// Spaces between buttons
+	private int space;
+
+	// Fonts menu uses
+	private Font fnt, fnt2, fnt3;
+
 	// The game
 	private Game game;
+
 	// Game's handler
 	private Handler handler;
+
 	// Icons
 	private BufferedImage speak = null, speakM = null;
+
 	// Image loader
 	BufferedImageLoader loader = new BufferedImageLoader();
+
+	// Buttons
+	MenuButton play, help, quit, back, credits;
+
+	// Sound Button
+	MenuButtonPic sound, soundM;
 
 	public Menu(Game game) {
 		this.game = game;
@@ -38,7 +63,8 @@ public class Menu extends MouseAdapter {
 		switch (game.gameState) {
 		case Menu:
 			// Play button
-			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 100, xSize, ySize)) {
+			if (mouseOver(mx, my, play)) {
+				// if (mouseOver(mx, my, play.x, play.y, play.width, play.height)) {
 				game.getHud().setScore(0);
 				game.gameState = STATE.Game;
 
@@ -48,21 +74,21 @@ public class Menu extends MouseAdapter {
 			}
 
 			// Help Button
-			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 200, xSize, ySize))
+			if (mouseOver(mx, my, help))
 				game.gameState = STATE.Help;
 
 			// Quit Button
-			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize)) {
+			if (mouseOver(mx, my, quit)) {
 				game.getHud().writeHscore();
 				System.exit(1);
 			}
 
 			// Sound Button
-			if (mouseOver(mx, my, game.getWidth() - 55, game.getHeight() - 55, 50, 50))
+			if (mouseOver(mx, my, sound) || mouseOver(mx, my, soundM))
 				game.muted = !game.muted;
 
 			// Credits Button
-			if (mouseOver(mx, my, 2, game.getHeight() - 55, 110, 50))
+			if (mouseOver(mx, my, credits))
 				game.gameState = STATE.Credits;
 
 			break;
@@ -72,14 +98,9 @@ public class Menu extends MouseAdapter {
 			// if (!game.muted)
 			// AudioPlayer.getMusic("menuMusic").loop();
 		case Help:
-			// Help Button
-			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize))
-				game.gameState = STATE.Menu;
-			break;
-
 		case Credits:
 			// Back Button
-			if (mouseOver(mx, my, (Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize))
+			if (mouseOver(mx, my, back))
 				game.gameState = STATE.Menu;
 		}
 	}
@@ -88,9 +109,17 @@ public class Menu extends MouseAdapter {
 
 	}
 
-	private boolean mouseOver(int mx, int my, int x, int y, int width, int height) {
-		if (mx > x && mx < x + width)
-			if (my > y && my < y + height)
+	private boolean mouseOver(int mx, int my, MenuButton button) {
+		if (mx > button.getX() && mx < button.getX() + button.getWidth())
+			if (my > button.getY() && my < button.getY() + button.getHeight())
+				return true;
+
+		return false;
+	}
+
+	private boolean mouseOver(int mx, int my, MenuButtonPic button) {
+		if (mx > button.getX() && mx < button.getX() + button.getWidth())
+			if (my > button.getY() && my < button.getY() + button.getHeight())
 				return true;
 
 		return false;
@@ -100,94 +129,66 @@ public class Menu extends MouseAdapter {
 
 	}
 
+	// Renders credit screen
 	public void renderCredits(Graphics g) {
-		Font fnt = new Font("arial", 1, 50), fnt2 = new Font("arial", 1, 30), fnt3 = new Font("arial", 1, 20);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 70), "Credits", fnt);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, pos), "Credits", fnt);
 
 		// My Credits
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 190), "Programming and \"Art\" by:", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 230), "Austin Campbell", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 270), "Twitter.com/Redtail5144", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, textSpace + (2 * pos)), "Programming and \"Art\" by:", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (2 * textSpace) + (2 * pos)), "Austin Campbell", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (3 * textSpace) + (2 * pos)), "Twitter.com/Redtail5144", fnt3);
 
 		// Music Credits
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 370), "Music by: ", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 420), "Jayden Rutschke", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (4 * textSpace) + (2 * pos)), "Music by: ", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (5 * textSpace) + (2 * pos)), "Jayden Rutschke", fnt3);
 
 		// Website
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 560), "StudioWithAHat.com", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (6 * textSpace) + (2 * pos)), "StudioWithAHat.com", fnt3);
 
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 660), "Back", fnt2);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize);
+		back.draw(g, fnt2);
 	}
 
+	// Renders the menu
 	public void renderMenu(Graphics g) {
-		Font fnt = new Font("arial", 1, 50), fnt2 = new Font("arial", 1, 30);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 70), "Menu", fnt);
-
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 260), "Play", fnt2);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 100, xSize, ySize);
-
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 460), "Help", fnt2);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 200, xSize, ySize);
-
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 660), "Quit", fnt2);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, pos), "Menu", fnt);
+		play.draw(g, fnt2);
+		help.draw(g, fnt2);
+		quit.draw(g, fnt2);
 
 		// Speaker icon
 		if (game.muted)
-			g.drawImage(speakM, game.getWidth() - 55, game.getHeight() - 55, null);
+			soundM.draw(g);
 		else
-			g.drawImage(speak, game.getWidth() - 55, game.getHeight() - 55, null);
-		g.drawRect(game.getWidth() - 55, game.getHeight() - 55, 50, 50);
+			sound.draw(g);
 
-		g.drawString("Credits", 4, game.getHeight() - 20);
-		g.drawRect(2, game.getHeight() - 55, 110, 50);
+		credits.draw(g, fnt2);
 	}
 
+	// Renders help screen
 	public void renderHelp(Graphics g) {
-		Font fnt = new Font("arial", 1, 50), fnt2 = new Font("arial", 1, 30), fnt3 = new Font("arial", 1, 20);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, pos), "Help", fnt);
 
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 70), "Help", fnt);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, textSpace + (2 * pos)), "Use Space to jump on the platforms.", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (2 * textSpace) + (2 * pos)), "You can ride on the inside of the platforms,",
+				fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (3 * textSpace) + (2 * pos)), "But cannot jump while doing so.", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (4 * textSpace) + (2 * pos)), "Escape to Close.", fnt3);
 
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 270), "Use Space to jump on the platforms.", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 320), "You can ride on the inside of the platforms,", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 370), "But cannot jump while doing so.", fnt3);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 420), "Escape to Close.", fnt3);
-
-		g.setFont(fnt2);
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 660), "Back", fnt2);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize);
+		back.draw(g, fnt2);
 	}
 
+	// Renders gameover screen
 	public void renderGameOver(Graphics g) {
-		Font fnt = new Font("arial", 1, 50), fnt2 = new Font("arial", 1, 30), fnt3 = new Font("arial", 1, 20);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, pos), "Rekt", fnt);
 
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 70), "Rekt", fnt);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, textSpace + (2 * pos)), "HA! You got fucking rekt scrub!", fnt3);
 
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 370), "HA! You got fucking rekt scrub!", fnt3);
+		Helper.xCenterString(g, new Rectangle(Game.WIDTH, (2 * textSpace) + (2 * pos)), "Final Score: " + game.getHud().getScore(), fnt3);
 
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 420), "Final Score: " + game.getHud().getScore(), fnt3);
-
-		Helper.xCenterString(g, new Rectangle(Game.WIDTH, 660), "Back", fnt2);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize);
+		back.draw(g, fnt2);
 	}
 
-	public void renderSelect(Graphics g) {
-		Font fnt = new Font("arial", 1, 50), fnt2 = new Font("arial", 1, 30);
-		g.setFont(fnt);
-		g.drawString("Difficulty", 220, 70);
-
-		g.setFont(fnt2);
-		g.drawString("Normal", 270, 140);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 100, xSize, ySize);
-
-		g.drawString("Hard", 285, 240);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 200, xSize, ySize);
-
-		g.drawString("Back", 285, 340);
-		g.drawRect((Game.WIDTH / 2) - (xSize / 2), 300, xSize, ySize);
-	}
-
+	// General render method
 	public void render(Graphics g) {
 		g.setColor(Color.white);
 
@@ -211,5 +212,33 @@ public class Menu extends MouseAdapter {
 
 		default:
 		}
+	}
+
+	// Syncs with game size
+	public void setSize(int x, int y) {
+		xSize = x / 4;
+		ySize = y / 8;
+		pos = y / 7;
+		space = ySize * 2;
+		textSize = game.WIDTH / 13;
+		textSpace = space - (pos / 2);
+
+		fnt = new Font("arial", 1, textSize);
+		fnt2 = new Font("arial", 1, textSize - 20);
+		fnt3 = new Font("arial", 1, textSize - 80);
+
+		play = new MenuButton((game.WIDTH / 2) - (xSize / 2), game.WIDTH / 8, xSize, ySize, "Play");
+		help = new MenuButton((game.WIDTH / 2) - (xSize / 2), (game.WIDTH / 8) + space, xSize, ySize, "Help");
+		quit = new MenuButton((game.WIDTH / 2) - (xSize / 2), (game.WIDTH / 8) + (2 * space), xSize, ySize, "Quit");
+		back = new MenuButton((game.WIDTH / 2) - (xSize / 2), (game.WIDTH / 8) + (2 * space), xSize, ySize, "Back");
+		sound = new MenuButtonPic((game.WIDTH - (game.WIDTH / 13)) - 5, (game.HEIGHT - (game.WIDTH / 13)) - 5,
+				game.WIDTH / 13, game.WIDTH / 13, speak);
+		soundM = new MenuButtonPic(sound.getX(), sound.getY(), sound.getWidth(), sound.getHeight(), speakM);
+		credits = new MenuButton(2, sound.getY(), xSize, ySize, "Credits");
+	}
+	
+	//Gets menu text size
+	public int getTextSize() {
+		return textSize;
 	}
 }

@@ -27,8 +27,8 @@ public class HUD {
 
 	// Renders the HUD
 	public void render(Graphics g) {
-		g.drawString("Score: " + score, xPos, yPos);
-		g.drawString("High Score: " + hScore, xPos, yPos + 10);
+		g.drawString("Score: " + score, xPos, yPos + (g.getFont().getSize() / 3));
+		g.drawString("High Score: " + hScore, xPos, yPos + g.getFont().getSize());
 	}
 
 	public int getScore() {
