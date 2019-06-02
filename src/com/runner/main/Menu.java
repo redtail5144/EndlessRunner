@@ -21,6 +21,7 @@ public class Menu extends MouseAdapter {
 	// Size of text
 	private int textSize;
 
+	//Space between text
 	private int textSpace;
 	
 	// Spaces between buttons
