@@ -6,6 +6,7 @@ package com.runner.main;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -15,7 +16,7 @@ public class Game extends Canvas implements Runnable {
 	private static final long serialVersionUID = -5888314627074306608L;
 
 	// Width and Height of the Game/Window
-	public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
+	public static int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
 	
 	//If game is muted
 	public static boolean muted = false;
@@ -48,9 +49,10 @@ public class Game extends Canvas implements Runnable {
 	
 	// Game title
 	private Titles title = new Titles();
+	
+	private Window w;
 
 	public Game() {
-
 		// Initializes Key components
 		handler = new Handler();
 		menu = new Menu(this);
@@ -68,7 +70,11 @@ public class Game extends Canvas implements Runnable {
 		AudioPlayer.playing = false;
 		
 		// Creates the window
-		new Window(WIDTH, HEIGHT, title.getTitle(), this);
+		//new Window(WIDTH, HEIGHT, title.getTitle(), this);
+		w = new Window(title.getTitle(), this);
+		WIDTH = w.getWidth();
+		HEIGHT = w.getHeight();
+		menu.setSize(WIDTH, HEIGHT);
 	}
 
 	// Starts everything
@@ -131,6 +137,7 @@ public class Game extends Canvas implements Runnable {
 
 		if (gameState == STATE.Game) {
 			handler.render(g);
+			g.setFont(new Font("arial", 1, menu.getTextSize()/5));
 			hud.render(g);
 		}
 		else
